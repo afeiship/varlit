@@ -14,10 +14,22 @@ yarn add @jswork/varlit
 ```js
 import varlit from '@jswork/varlit';
 
-varlit(1024);
+const str = '${GITHUB_API_TOKEN} - ${afei}';
+const ctx = {
+  GITHUB_API_TOKEN: 'xxx-yyy-zzz',
+  afei: 'zhengfei'
+};
 
-// [1000, 0, 20, 4]
+varlit(str, ctx);
+
+// 'xxx-yyy-zzz - zhengfei'
 ```
+
+> Notes:
+> - Only plain `${variable}` names are replaced — no expressions are evaluated.
+> - Whitespace inside the braces is trimmed: `${ afei }` === `${afei}`.
+> - Unknown keys keep the original `${xxx}` text; `null`/`undefined` values become `''`.
+> - An invalid `ctx` (null/undefined/not an object) returns the original string.
 
 ## license
 Code released under [the MIT license](https://github.com/afeiship/varlit/blob/main/LICENSE.txt).
