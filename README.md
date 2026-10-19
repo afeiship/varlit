@@ -23,10 +23,15 @@ const ctx = {
 varlit(str, ctx);
 
 // 'xxx-yyy-zzz - zhengfei'
+
+// nested paths are supported too
+varlit('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
+
+// 'main st'
 ```
 
 > Notes:
-> - Only plain `${variable}` names are replaced — no expressions are evaluated.
+> - Only plain `${variable}` names (and nested paths like `a.b.c`) are replaced — no expressions are evaluated.
 > - Whitespace inside the braces is trimmed: `${ afei }` === `${afei}`.
 > - Unknown keys keep the original `${xxx}` text; `null`/`undefined` values become `''`.
 > - An invalid `ctx` (null/undefined/not an object) returns the original string.

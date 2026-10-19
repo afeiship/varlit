@@ -1,6 +1,12 @@
+import objectPath from 'object-path';
+
+// hoist the regex: avoid re-creating it on every call
+const RE_PLACEHOLDER = /\$\{([^}]+)\}/g;
+
 /**
  * Interpolate `${variable}` placeholders in a string from a context object.
- * Only plain variable names are extracted — no expressions are evaluated.
+ * Only variable paths are extracted — no expressions are evaluated.
+ * Nested paths are supported, e.g. `${adress.detail.street}`.
  *
  * @param str - the template string
  * @param ctx - context object holding the variable values
@@ -9,16 +15,20 @@
  * @example
  * literalTmpl('${GITHUB_API_TOKEN} - ${afei}', { GITHUB_API_TOKEN: 'xxx-yyy-zzz', afei: 'zhengfei' });
  * // => 'xxx-yyy-zzz - zhengfei'
+ *
+ * @example
+ * literalTmpl('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
+ * // => 'main st'
  */
 const literalTmpl = (str: string, ctx?: Record<string, any> | null): string => {
   // invalid ctx: return the original string unchanged
   if (!ctx || typeof ctx !== 'object') return str;
 
-  return str.replace(/\$\{([^}]+)\}/g, (match: string, key: string) => {
+  return str.replace(RE_PLACEHOLDER, (match: string, key: string) => {
     const name = key.trim();
-    // no such key: keep the original `${xxx}` text
-    if (!Object.prototype.hasOwnProperty.call(ctx, name)) return match;
-    const value = ctx[name];
+    // no such path: keep the original `${xxx}` text
+    if (!objectPath.has(ctx, name)) return match;
+    const value = objectPath.get(ctx, name);
     // null/undefined -> empty string, others -> string
     return value === null || value === undefined ? '' : String(value);
   });

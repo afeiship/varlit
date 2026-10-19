@@ -10,6 +10,16 @@ describe('literalTmpl', () => {
     expect(varlit(str, ctx)).toBe('xxx-yyy-zzz - zhengfei');
   });
 
+  test('supports nested object paths', () => {
+    const ctx = {
+      adress: { detail: { street: 'main st' } },
+      user: { tags: ['a', 'b'] }
+    };
+    expect(varlit('${adress.detail.street}', ctx)).toBe('main st');
+    expect(varlit('${user.tags.1}', ctx)).toBe('b');
+    expect(varlit('${adress.detail.zip}', ctx)).toBe('${adress.detail.zip}');
+  });
+
   test('trims whitespace around the variable name', () => {
     expect(varlit('${ afei }', { afei: 'zhengfei' })).toBe('zhengfei');
     expect(varlit('${\t GITHUB_API_TOKEN \n}', { GITHUB_API_TOKEN: 'x' })).toBe('x');
