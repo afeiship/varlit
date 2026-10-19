@@ -25,7 +25,7 @@ varlit(str, ctx);
 // 'xxx-yyy-zzz - zhengfei'
 
 // nested paths are supported too
-varlit('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
+varlit('${address.detail.street}', { address: { detail: { street: 'main st' } } });
 
 // 'main st'
 ```

@@ -12,12 +12,12 @@ describe('varlit', () => {
 
   test('supports nested object paths', () => {
     const ctx = {
-      adress: { detail: { street: 'main st' } },
+      address: { detail: { street: 'main st' } },
       user: { tags: ['a', 'b'] }
     };
-    expect(varlit('${adress.detail.street}', ctx)).toBe('main st');
+    expect(varlit('${address.detail.street}', ctx)).toBe('main st');
     expect(varlit('${user.tags.1}', ctx)).toBe('b');
-    expect(varlit('${adress.detail.zip}', ctx)).toBe('${adress.detail.zip}');
+    expect(varlit('${address.detail.zip}', ctx)).toBe('${address.detail.zip}');
   });
 
   test('trims whitespace around the variable name', () => {
@@ -53,5 +53,14 @@ describe('varlit', () => {
   test('leaves strings without placeholders untouched', () => {
     expect(varlit('plain text', { afei: 'zhengfei' })).toBe('plain text');
     expect(varlit('${}', { afei: 'zhengfei' })).toBe('${}');
+    expect(varlit('${  }', { afei: 'zhengfei' })).toBe('${  }');
+  });
+
+  test('does not interpolate inherited properties', () => {
+    expect(varlit('${toString}-${constructor}-${hasOwnProperty}', { a: 1 })).toBe(
+      '${toString}-${constructor}-${hasOwnProperty}'
+    );
+    // an own key literally named toString still interpolates
+    expect(varlit('${toString}', { toString: 'own' })).toBe('own');
   });
 });

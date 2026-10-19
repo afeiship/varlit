@@ -29,6 +29,8 @@ const umdOptions: Options = {
   format: ['umd'] as any,
   tsconfig: './tsconfig.json',
   sourcemap: true,
+  // bundle object-path so the UMD output is self-contained
+  noExternal: ['object-path'],
   banner: {
     js: tsupBanner(),
   },
@@ -42,7 +44,7 @@ const umdOptions: Options = {
       'export default': 'export =',
     }),
     umdWrapper({
-      libraryName: 'urlLiteral',
+      libraryName: 'varlit',
     }),
   ],
 };

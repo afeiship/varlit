@@ -6,7 +6,7 @@ const RE_PLACEHOLDER = /\$\{([^}]+)\}/g;
 /**
  * Interpolate `${variable}` placeholders in a string from a context object.
  * Only variable paths are extracted — no expressions are evaluated.
- * Nested paths are supported, e.g. `${adress.detail.street}`.
+ * Nested paths are supported, e.g. `${address.detail.street}`.
  *
  * @param str - the template string
  * @param ctx - context object holding the variable values
@@ -17,7 +17,7 @@ const RE_PLACEHOLDER = /\$\{([^}]+)\}/g;
  * // => 'xxx-yyy-zzz - zhengfei'
  *
  * @example
- * varlit('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
+ * varlit('${address.detail.street}', { address: { detail: { street: 'main st' } } });
  * // => 'main st'
  */
 const varlit = (str: string, ctx?: Record<string, any> | null): string => {
