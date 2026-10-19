@@ -18,8 +18,7 @@
   },
   "files": [
     "src",
-    "dist",
-    "global.d.ts"
+    "dist"
   ],
   "homepage": "https://js.work",
   "keywords": [
