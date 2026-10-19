@@ -13,14 +13,14 @@ const RE_PLACEHOLDER = /\$\{([^}]+)\}/g;
  * @returns the interpolated string
  *
  * @example
- * literalTmpl('${GITHUB_API_TOKEN} - ${afei}', { GITHUB_API_TOKEN: 'xxx-yyy-zzz', afei: 'zhengfei' });
+ * varlit('${GITHUB_API_TOKEN} - ${afei}', { GITHUB_API_TOKEN: 'xxx-yyy-zzz', afei: 'zhengfei' });
  * // => 'xxx-yyy-zzz - zhengfei'
  *
  * @example
- * literalTmpl('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
+ * varlit('${adress.detail.street}', { adress: { detail: { street: 'main st' } } });
  * // => 'main st'
  */
-const literalTmpl = (str: string, ctx?: Record<string, any> | null): string => {
+const varlit = (str: string, ctx?: Record<string, any> | null): string => {
   // invalid ctx: return the original string unchanged
   if (!ctx || typeof ctx !== 'object') return str;
 
@@ -34,5 +34,4 @@ const literalTmpl = (str: string, ctx?: Record<string, any> | null): string => {
   });
 };
 
-export default literalTmpl;
-export { literalTmpl };
+export default varlit;

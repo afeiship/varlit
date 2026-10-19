@@ -1,6 +1,6 @@
-import varlit, { literalTmpl } from '../src';
+import varlit from '../src';
 
-describe('literalTmpl', () => {
+describe('varlit', () => {
   test('replaces placeholders with context values', () => {
     const str = '${GITHUB_API_TOKEN} - ${afei}';
     const ctx = {
@@ -53,10 +53,5 @@ describe('literalTmpl', () => {
   test('leaves strings without placeholders untouched', () => {
     expect(varlit('plain text', { afei: 'zhengfei' })).toBe('plain text');
     expect(varlit('${}', { afei: 'zhengfei' })).toBe('${}');
-  });
-
-  test('is exported as both default and named export', () => {
-    expect(literalTmpl).toBe(varlit);
-    expect(literalTmpl('${afei}', { afei: 'zhengfei' })).toBe('zhengfei');
   });
 });
